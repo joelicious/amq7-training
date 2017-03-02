@@ -24,13 +24,11 @@
 
 -   add a queue to each broker 
 ```xml
-  <addresses>
-     <address name="exampleQueue" type="anycast">
-        <queues>
-           <queue name="exampleQueue"/>
-        </queues>
-     </address>
-  </addresses>
+<address name="exampleQueue">
+  <anycast>
+    <queue name="exampleQueue"/>
+  </anycast>
+</address>
 ```
 
 -   start both brokers
@@ -97,13 +95,11 @@ $ARTEMIS_HOME/bin/artemis create --replicated --failover-on-shutdown --slave --u
 ```
 -   add a queue to each broker 
 ```xml
-  <addresses>
-     <address name="exampleQueue" type="anycast">
-        <queues>
-           <queue name="exampleQueue"/>
-        </queues>
-     </address>
-  </addresses>
+<address name="exampleQueue">
+  <anycast>
+    <queue name="exampleQueue"/>
+  </anycast>
+</address>
 ```
 -   start both brokers
  
