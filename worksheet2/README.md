@@ -42,10 +42,6 @@ Both brokers need to be configured with the same anycast queue definition
   </anycast>
 </address>
 ```
--  Ensure cluster-connection will cluster the queue, by updating the cluster-connection definition. For now remove the address so every address is clustered.
-```xml 
-<!-- <address>jms</address> -->
-
 -   start both brokers
 ```code
 (broker1_home)/bin/artemis run
