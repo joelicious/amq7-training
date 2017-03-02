@@ -13,3 +13,11 @@ hs_err_pid*
 
 .idea
 *.iml
+
+.classpath
+.project
+.settings/
+target/
+data/
+.attach_*
+derby.log
