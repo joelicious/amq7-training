@@ -70,13 +70,11 @@ Goto http://localhost:8161/hawtio/login and log in using the default user/pass y
 -   Stop the Broker
 -   Add an anycast type address with a queue 
 ```xml 
-    <addresses>
-     <address name="exampleQueue" type="anycast">
-        <queues>
-           <queue name="exampleQueue"/>
-        </queues>
-     </address>
-    </addresses>
+<address name="exampleQueue">
+  <anycast>
+    <queue name="exampleQueue"/>
+  </anycast>
+</address>
 ```
 
 -   Start The broker
@@ -93,9 +91,11 @@ mvn verify -PqueueReceiver
 -   Stop the Broker
 -   Add a multicast type address with a topic 
 ```xml 
-  <addresses>
-     <address name="exampleTopic" type="multicast"/>
-  </addresses>
+<address name="exampleTopic">
+  <multicast>
+    <queue name="exampleTopic"/>
+  </multicast>
+</address>
 ```
 
 -   Start The broker
