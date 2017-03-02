@@ -12,12 +12,12 @@
 -   create broker 1
 
 ```code
-(A_MQ_Install_Dir)/bin/artemis create  --user admin --password password --role admin --allow-anonymous y --clustered --host 127.0.0.1 --cluster-user clusterUser --cluster-password clusterPassword  --max-hops 1 broker1
+(A_MQ_Install_Dir)/bin/artemis create --replicated --user admin --password password --role admin --allow-anonymous y --clustered --host 127.0.0.1 --cluster-user clusterUser --cluster-password clusterPassword --name broker1 --max-hops 1 broker1
 ```
 -   create broker 2
 
 ```code
-(A_MQ_Install_Dir)/bin/artemis create  --user admin --password password --role admin --allow-anonymous y --clustered --host 127.0.0.1 --cluster-user clusterUser --cluster-password clusterPassword  --max-hops 1 --port-offset 100 broker2
+(A_MQ_Install_Dir)/bin/artemis create --replicated --user admin --password password --role admin --allow-anonymous y --clustered --host 127.0.0.1 --cluster-user clusterUser --cluster-password clusterPassword --name broker2 --max-hops 1 --port-offset 100 broker2
 ```
 
 -   start both brokers
@@ -36,13 +36,20 @@ Both brokers need to be configured with the same anycast queue definition
 
 -   Add an anycast queue configuration for both brokers
 ```xml
-  <addresses>
-     <address name="exampleQueue" type="anycast">
-        <queues>
-           <queue name="exampleQueue"/>
-        </queues>
-     </address>
-  </addresses>
+<address name="exampleQueue">
+  <anycast>
+    <queue name="exampleQueue"/>
+  </anycast>
+</address>
+```
+-  Ensure cluster-connection will cluster the queue, by updating the cluster-connection definition. For now remove the address so every address is clustered.
+```xml 
+<!-- <address>jms</address> -->
+
+-   start both brokers
+```code
+(broker1_home)/bin/artemis run
+(broker2_home)/bin/artemis run
 ```
 
 -   from the worksheet2 directory run 2 consumers connected to each broker
@@ -58,7 +65,7 @@ mvn verify -PqueueSender
 
 NB you will see each consumer receives 5 messages in a round robin fashion
 
--   kill the consumers and run the producer again
+-   kill the consumers and run the producer again.  This example works best with persistence.
 
 ```code
 mvn verify -PqueueSender
@@ -84,9 +91,11 @@ Both brokers need to be configured with the same multicast topic definition
 
 -   Add an multicast topic configuration for both brokers
 ```xml
-  <addresses>
-     <address name="exampleTopic" type="multicast"/>
-   </addresses>
+<address name="exampleTopic">
+  <multicast>
+    <queue name="exampleTopic"/>
+  </multicast>
+</address>
 ```
 
 -   from the worksheet2 directory run 2 consumers connected to each broker
